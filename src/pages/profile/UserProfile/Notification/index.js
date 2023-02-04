@@ -65,7 +65,7 @@ const Notification = ({notification}) => {
         <Button type='primary' htmlType='submit'>
           Save Changes
         </Button>
-        <Button htmlType='cancel'>Cancel</Button>
+        <Button htmlType='cancel'>Cancesl</Button>
       </Form.Item>
     </Form>
   );

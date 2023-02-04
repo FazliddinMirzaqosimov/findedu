@@ -33,7 +33,7 @@ const AppVerticalNav = () => {
         'menu-rounded rounded-menu-reverse':
           menuStyle === MenuStyle.ROUNDED_REVERSE,
         'menu-rounded standard-menu': menuStyle === MenuStyle.STANDARD,
-        'menu-rounded curved-menu': menuStyle === MenuStyle.CURVED_MENU,
+        'menu-rounde  d curved-menu': menuStyle === MenuStyle.CURVED_MENU,
         'bg-color-menu':
           sidebarColorSet.sidebarBgColor !==
           defaultConfig.sidebar.colorSet.sidebarBgColor,

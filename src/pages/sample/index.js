@@ -2,11 +2,19 @@ import React from 'react';
 
 export const samplePagesConfigs = [
   {
-    path: '/sample/page-1',
-    component: React.lazy(() => import('./Page1')),
+    path: '/sample/education',
+    component: React.lazy(() => import('./AddEdu')),
   },
   {
-    path: '/sample/page-2',
-    component: React.lazy(() => import('./Page2')),
+    path: '/sample/lang',
+    component: React.lazy(() => import('./AddLang')),
+  },
+  {
+    path: '/sample/subject',
+    component: React.lazy(() => import('./AddSubject')),
+  },
+  {
+    path: '/sample/it',
+    component: React.lazy(() => import('./AddIt')),
   },
 ];

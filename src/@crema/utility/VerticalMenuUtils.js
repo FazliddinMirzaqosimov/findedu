@@ -34,7 +34,6 @@ function getStyles(item, sidebarColorSet, isSidebarBgImage, index, isGroup) {
 const renderMenuItemChildren = (item) => {
   const {icon, messageId, path} = item;
   const {messages} = useIntl();
-
   if (path && path.includes('/'))
     return (
       <Link to={path}>

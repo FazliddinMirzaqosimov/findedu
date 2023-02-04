@@ -14,6 +14,7 @@ const AppsContent = (props) => {
         {isDetailView: isDetailView},
         {fullView: fullView},
       )}>
+      wwww
       {children}
     </AppScrollbar>
   );
