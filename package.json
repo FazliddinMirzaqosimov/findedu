@@ -79,6 +79,7 @@
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
     "reqwest": "^2.0.5",
+    "sass": "^1.58.0",
     "simplebar-react": "^2.3.6",
     "slick-carousel": "^1.8.1",
     "use-url-search-params": "^2.3.13",
