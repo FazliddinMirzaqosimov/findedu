@@ -1,14 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: `http://18.216.178.179/api/v1/`,
-})
+  baseURL: `http://18.216.178.179/api/v1/`,
+});
 
 axiosInstance.interceptors.request.use((config) => {
-    console.log(config)
-    config.params = config.params || {}
+  config.params = config.params || {};
 
-    return config;
-})
+  return config;
+});
 
-export default axiosInstance
+export default axiosInstance;

@@ -87,7 +87,11 @@ function EduModal(props) {
             >
               <Upload.Dragger
                 maxCount={1}
-                accept='image/png, image/jpeg, image/jfif'>
+                accept='image/png, image/jpeg, image/jfif'
+                beforeUpload={(file) => {
+                  console.log(file);
+                  return false;
+                }}>
                 <Button icon={<UploadOutlined />}>Click to Upload</Button>
               </Upload.Dragger>
             </Form.Item>

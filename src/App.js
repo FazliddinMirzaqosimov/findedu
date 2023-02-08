@@ -12,7 +12,7 @@ import {
 import configureStore from './redux/store';
 import {BrowserRouter} from 'react-router-dom';
 import './@crema/services/index';
-import FirebaseAuthProvider from './@crema/services/auth/firebase/FirebaseAuthProvider';
+import JWTAuthAuthProvider from '@crema/services/auth/jwt-auth/JWTAuthProvider';
 
 const store = configureStore();
 
@@ -22,11 +22,11 @@ const App = () => (
       <AppThemeProvider>
         <AppLocaleProvider>
           <BrowserRouter>
-            <FirebaseAuthProvider>
+            <JWTAuthAuthProvider>
               <AuthRoutes>
                 <AppLayout />
               </AuthRoutes>
-            </FirebaseAuthProvider>
+            </JWTAuthAuthProvider>
           </BrowserRouter>
         </AppLocaleProvider>
       </AppThemeProvider>

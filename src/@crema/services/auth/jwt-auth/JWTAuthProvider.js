@@ -27,6 +27,7 @@ const JWTAuthAuthProvider = ({children}) => {
   useEffect(() => {
     const getAuthUser = () => {
       const token = localStorage.getItem('token');
+      const id = localStorage.getItem('id');
 
       if (!token) {
         setJWTAuthData({
@@ -38,14 +39,15 @@ const JWTAuthAuthProvider = ({children}) => {
       }
       setAuthToken(token);
       jwtAxios
-        .get('/auth')
-        .then(({data}) =>
+        .get('/user/' + id)
+        .then((res) => {
+          console.log('Esla Wuni', res);
           setJWTAuthData({
-            user: data,
+            user: res,
             isLoading: false,
             isAuthenticated: true,
-          }),
-        )
+          });
+        })
         .catch(() =>
           setJWTAuthData({
             user: undefined,
@@ -61,11 +63,16 @@ const JWTAuthAuthProvider = ({children}) => {
   const signInUser = async ({email, password}) => {
     dispatch({type: FETCH_START});
     try {
-      const {data} = await jwtAxios.post('auth', {email, password});
-      localStorage.setItem('token', data.token);
+      const {data} = await jwtAxios.post('user/login', {email, password});
+      console.log(data);
+      localStorage.setItem('token', data.data.token);
+      localStorage.setItem('id', data.data.user._id);
       setAuthToken(data.token);
-      const res = await jwtAxios.get('/auth');
-      setJWTAuthData({user: res.data, isAuthenticated: true, isLoading: false});
+      setJWTAuthData({
+        user: data.data.user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
       dispatch({type: FETCH_SUCCESS});
     } catch (error) {
       setJWTAuthData({
@@ -77,14 +84,27 @@ const JWTAuthAuthProvider = ({children}) => {
     }
   };
 
-  const signUpUser = async ({name, email, password}) => {
+  const signUpUser = async ({name, email, password, passwordConfirm}) => {
+    console.log(name, email, password, passwordConfirm);
     dispatch({type: FETCH_START});
     try {
-      const {data} = await jwtAxios.post('users', {name, email, password});
-      localStorage.setItem('token', data.token);
+      const {data} = await jwtAxios.post('user/signup', {
+        name,
+        email,
+        password,
+        passwordConfirm,
+      });
+      localStorage.setItem('token', data.data.token);
+      localStorage.setItem('id', data.data.user._id);
+
+      console.log(data);
+
       setAuthToken(data.token);
-      const res = await jwtAxios.get('/auth');
-      setJWTAuthData({user: res.data, isAuthenticated: true, isLoading: false});
+      setJWTAuthData({
+        user: data.data.user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
       dispatch({type: FETCH_SUCCESS});
     } catch (error) {
       setJWTAuthData({

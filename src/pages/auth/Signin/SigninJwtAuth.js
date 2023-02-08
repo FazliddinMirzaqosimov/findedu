@@ -1,31 +1,28 @@
 import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
-import {Checkbox, Button, Form, Input} from 'antd';
-import {
-  GithubOutlined,
-  GoogleOutlined,
-  TwitterOutlined,
-} from '@ant-design/icons';
-import {FaFacebookF} from 'react-icons/fa';
 import {useIntl} from 'react-intl';
+import {Button, Checkbox, Form, Input} from 'antd';
+
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useAuthMethod} from '../../../@crema/utility/AuthHooks';
 
-const SignInFirebase = () => {
+const SignInJwtAuth = () => {
   const history = useHistory();
-  const {signInWithEmailAndPassword, signInWithPopup} = useAuthMethod();
-  const {messages} = useIntl();
+  const {signInUser} = useAuthMethod();
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+
   const onGoToForgetPassword = () => {
-    history.push('/forget-password', {tab: 'firebase'});
+    history.push('/forget-password', {tab: 'jwtAuth'});
   };
 
   function onRememberMe(e) {
     console.log(`checked = ${e.target.checked}`);
   }
+
+  const {messages} = useIntl();
 
   return (
     <div className='sign'>
@@ -35,10 +32,10 @@ const SignInFirebase = () => {
           name='basic'
           initialValues={{
             remember: true,
-            email: 'crema.demo@gmail.com',
-            password: 'Pass@1!@all',
+            email: 'fazliddinmirzaqosimov8@gmail.com',
+            password: '1212qwqw',
           }}
-          onFinish={signInWithEmailAndPassword}
+          onFinish={signInUser}
           onFinishFailed={onFinishFailed}>
           <Form.Item
             name='email'
@@ -58,6 +55,7 @@ const SignInFirebase = () => {
             <Checkbox onChange={onRememberMe}>
               <IntlMessages id='common.rememberMe' />
             </Checkbox>
+
             <span className='sign-link' onClick={onGoToForgetPassword}>
               <IntlMessages id='common.forgetPassword' />
             </span>
@@ -79,36 +77,8 @@ const SignInFirebase = () => {
           </div>
         </Form>
       </div>
-
-      <div className='sign-footer'>
-        <span className='sign-text sign-text-grey'>
-          <IntlMessages id='common.orLoginWith' />
-        </span>
-        <div className='sign-socialLink'>
-          <Button
-            className='sign-icon-btn'
-            onClick={() => signInWithPopup('google')}
-            icon={<GoogleOutlined />}
-          />
-          <Button
-            className='sign-icon-btn'
-            icon={<FaFacebookF />}
-            onClick={() => signInWithPopup('facebook')}
-          />
-          <Button
-            className='sign-icon-btn'
-            icon={<GithubOutlined />}
-            onClick={() => signInWithPopup('github')}
-          />
-          <Button
-            className='sign-icon-btn'
-            icon={<TwitterOutlined />}
-            onClick={() => signInWithPopup('twitter')}
-          />
-        </div>
-      </div>
     </div>
   );
 };
 
-export default SignInFirebase;
+export default SignInJwtAuth;

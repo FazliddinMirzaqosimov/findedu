@@ -25,32 +25,26 @@ export const useAuthMethod = () => {
 };*/
 //For Firebase Auth
 import {
-  useFirebase,
-  useFirebaseActions,
-} from '../services/auth/firebase/FirebaseAuthProvider';
-import {getUserFromFirebase} from './helper/AuthHelper';
+  useJWTAuthActions,
+  useJWTAuth,
+} from '../services/auth/jwt-auth/JWTAuthProvider';
+import {getUserFromJwtAuth} from './helper/AuthHelper';
 
 export const useAuthUser = () => {
-  const {user, isAuthenticated, isLoading} = useFirebase();
+  const {user, isAuthenticated, isLoading} = useJWTAuth();
+
   return {
     isLoading,
     isAuthenticated,
-    user: getUserFromFirebase(user),
+    user: getUserFromJwtAuth(user),
   };
 };
 
 export const useAuthMethod = () => {
-  const {
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-    signInWithPopup,
-    logout,
-  } = useFirebaseActions();
-
+  const {signInUser, signUpUser, logout} = useJWTAuthActions();
   return {
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-    signInWithPopup,
+    signInUser,
+    signUpUser,
     logout,
   };
 };

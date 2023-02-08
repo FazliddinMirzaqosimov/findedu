@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const jwtAxios = axios.create({
-  baseURL: 'https://crema-mongo-api.herokuapp.com/api/', //YOUR_API_URL HERE
+  baseURL: 'http://18.216.178.179/api/v1/', //YOUR_API_URL HERE
   headers: {
     'Content-Type': 'application/json',
   },
@@ -23,6 +23,7 @@ export const setAuthToken = (token) => {
   } else {
     delete jwtAxios.defaults.headers.common['x-auth-token'];
     localStorage.removeItem('token');
+    localStorage.removeItem('id');
   }
 };
 

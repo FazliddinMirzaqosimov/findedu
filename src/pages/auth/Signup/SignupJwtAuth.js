@@ -1,19 +1,17 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {
-  GithubOutlined,
-  GoogleOutlined,
-  TwitterOutlined,
-} from '@ant-design/icons';
 import {Button, Checkbox, Form, Input} from 'antd';
 import IntlMessages from '../../../@crema/utility/IntlMessages';
 import {useIntl} from 'react-intl';
-import {FaFacebookF} from 'react-icons/fa';
 import {useAuthMethod} from '../../../@crema/utility/AuthHooks';
 
-const SignupFirebase = () => {
+const SignupJwtAuth = () => {
   const {messages} = useIntl();
-  const {createUserWithEmailAndPassword, signInWithPopup} = useAuthMethod();
+  const {signUpUser} = useAuthMethod();
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
 
   return (
     <div className='signup'>
@@ -22,7 +20,8 @@ const SignupFirebase = () => {
           className='signup-form'
           name='basic'
           initialValues={{remember: true}}
-          onFinish={createUserWithEmailAndPassword}>
+          onFinish={signUpUser}
+          onFinishFailed={onFinishFailed}>
           <Form.Item
             name='name'
             className='form-field'
@@ -43,9 +42,8 @@ const SignupFirebase = () => {
             rules={[{required: true, message: 'Please input your Password!'}]}>
             <Input.Password placeholder={messages['common.password']} />
           </Form.Item>
-
           <Form.Item
-            name='confirmPassword'
+            name='passwordConfirm'
             className='form-field'
             rules={[
               {
@@ -84,41 +82,8 @@ const SignupFirebase = () => {
           </div>
         </Form>
       </div>
-
-      <div className='signup-footer'>
-        <span className='signup-text signup-text-grey'>
-          <IntlMessages id='auth.orSignupWith' />
-        </span>
-
-        <div className='signup-socialLink'>
-          <Button
-            className='signup-icon-btn'
-            shape='circle'
-            onClick={() => signInWithPopup('google')}
-            icon={<GoogleOutlined />}
-          />
-          <Button
-            className='signup-icon-btn'
-            shape='circle'
-            onClick={() => signInWithPopup('facebook')}
-            icon={<FaFacebookF />}
-          />
-          <Button
-            className='signup-icon-btn'
-            shape='circle'
-            icon={<GithubOutlined />}
-            onClick={() => signInWithPopup('github')}
-          />
-          <Button
-            className='signup-icon-btn'
-            shape='circle'
-            icon={<TwitterOutlined />}
-            onClick={() => signInWithPopup('twitter')}
-          />
-        </div>
-      </div>
     </div>
   );
 };
 
-export default SignupFirebase;
+export default SignupJwtAuth;
