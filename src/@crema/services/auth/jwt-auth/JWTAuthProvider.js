@@ -28,7 +28,6 @@ const JWTAuthAuthProvider = ({children}) => {
     const getAuthUser = () => {
       const token = localStorage.getItem('token');
       const id = localStorage.getItem('id');
-
       if (!token) {
         setJWTAuthData({
           user: undefined,
@@ -41,20 +40,22 @@ const JWTAuthAuthProvider = ({children}) => {
       jwtAxios
         .get('/user/' + id)
         .then((res) => {
-          console.log('Esla Wuni', res);
+          // console.log('Esla Wuni', res);
           setJWTAuthData({
             user: res,
             isLoading: false,
             isAuthenticated: true,
           });
         })
-        .catch(() =>
+        .catch(() => {
+          // console.log('Esla Wuni', err);
+
           setJWTAuthData({
             user: undefined,
             isLoading: false,
             isAuthenticated: false,
-          }),
-        );
+          });
+        });
     };
 
     getAuthUser();
@@ -96,8 +97,6 @@ const JWTAuthAuthProvider = ({children}) => {
       });
       localStorage.setItem('token', data.data.token);
       localStorage.setItem('id', data.data.user._id);
-
-      console.log(data);
 
       setAuthToken(data.token);
       setJWTAuthData({
