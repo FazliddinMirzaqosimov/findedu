@@ -182,6 +182,8 @@ const Page2 = () => {
     },
   ];
 
+  console.log(search)
+
   return (
     <>
       {contextHolder}
