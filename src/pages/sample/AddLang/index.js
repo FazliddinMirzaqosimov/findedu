@@ -107,6 +107,7 @@ const Page2 = () => {
       formData.append('name_Ru', data.name_Ru);
       formData.append('name_En', data.name_En);
       formData.append('photo', data.photo['file']);
+
       axios
         .patch(`langs/${current._id}`, formData, {
           headers: {
