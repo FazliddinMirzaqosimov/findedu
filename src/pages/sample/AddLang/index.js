@@ -89,6 +89,7 @@ const Page2 = () => {
       formData.append('name_Ru', data.name_Ru);
       formData.append('name_En', data.name_En);
       formData.append('photo', data.photo['file']);
+
       axios
         .post(`http://18.216.178.179/api/v1/langs`, formData, {
           headers: {
@@ -120,6 +121,7 @@ const Page2 = () => {
       formData.append('name_Ru', data.name_Ru);
       formData.append('name_En', data.name_En);
       formData.append('photo', data.photo['file']);
+
       axios
         .patch(`http://18.216.178.179/api/v1/langs/${current._id}`, formData, {
           headers: {

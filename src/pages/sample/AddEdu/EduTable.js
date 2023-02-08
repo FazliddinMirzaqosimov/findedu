@@ -1,10 +1,17 @@
-import {Button, Checkbox, Space, Table} from 'antd';
-import React from 'react';
+import {Button, Modal, Space, Spin, Table} from 'antd';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
+import {API_URL} from 'shared/constants/ActionTypes';
+import axios from 'axios';
+import {BsCheckLg} from 'react-icons/bs';
+import {ImCross} from 'react-icons/im';
 
 function EduTable(props) {
-  console.log(props);
-  const {editBtn, deleteBtn, edus} = props;
+  const [eduId, setEduId] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const {editBtn, getEduCenters, token, edus} = props;
+
   const columns = [
     {
       title: 'Name',
@@ -12,47 +19,78 @@ function EduTable(props) {
       key: 'name',
       render: (text) => <a>{text}</a>,
     },
-    {
-      title: 'Online',
-      dataIndex: 'isOnlineExist',
-      key: 'name',
-      render: (text) => <Checkbox value={text} disabled></Checkbox>,
-    },
+
     {
       title: 'Address',
       dataIndex: 'mainAddress',
-      key: 'name',
+      key: 'address',
+    },
+    {
+      title: 'Online',
+      dataIndex: 'isOnlineExists',
+      key: 'online',
+      render: (isOnline) => (isOnline ? <BsCheckLg /> : <ImCross />),
     },
     {
       title: 'Action',
-      dataIndex: '_id',
-      key: 'name',
-      render: (id) => (
+      key: 'action',
+      render: (edu) => (
         <Space>
-          <Button onClick={() => editBtn(id)}>Edit</Button>
-          <Button danger onClick={() => deleteBtn(id)}>
+          <Button onClick={() => editBtn(edu)}>Edit</Button>
+          <Button
+            danger
+            onClick={() => {
+              setVisible(true);
+              setEduId(edu._id);
+            }}>
             Delete
           </Button>
         </Space>
       ),
     },
   ];
+  edus.forEach((el, index) => (el.key = index));
   return (
-    <Table
-      columns={columns}
-      dataSource={edus}
-      expandable={{
-        expandedRowRender: (record) => (
-          <p
-            style={{
-              margin: 0,
-            }}>
-            {record.description_En}
+    <>
+      <Table
+        columns={columns}
+        dataSource={edus}
+        expandable={{
+          expandedRowRender: (record) => (
+            <p
+              style={{
+                margin: 0,
+              }}>
+              {record.description_En}
+            </p>
+          ),
+          rowExpandable: (record) => record.name !== 'Not Expandable',
+        }}
+      />
+      <Modal
+        visible={visible}
+        onOk={() => {
+          setLoading(true);
+          axios
+            .delete(`${API_URL}api/v1/edu/${eduId}`, {
+              headers: {
+                Authorization: token,
+              },
+            })
+            .then(() => {
+              getEduCenters();
+              setVisible(false);
+              setLoading(false);
+            });
+        }}
+        onCancel={() => setVisible(false)}>
+        <Spin spinning={loading}>
+          <p style={{margin: 30}}>
+            Are you sure you wanna delete this edu center?
           </p>
-        ),
-        rowExpandable: (record) => record.name !== 'Not Expandable',
-      }}
-    />
+        </Spin>
+      </Modal>
+    </>
   );
 }
 EduTable.propTypes = {
