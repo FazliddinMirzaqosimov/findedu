@@ -1,18 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Button,
-  Form,
-  Modal,
-  Input,
-  Upload,
-  Row,
-  Col,
-  Spin,
-  Table,
-  message,
-} from 'antd';
-import {DeleteTwoTone, EditTwoTone, PlusCircleTwoTone} from '@ant-design/icons';
-import axios from 'axios';
+import {Button,Form,Modal,Input,Upload,Row,Col,Spin,Table,message,} from 'antd';
+import {DeleteTwoTone, EditTwoTone, PlusCircleTwoTone, UploadOutlined} from '@ant-design/icons';
+import axios from '../../../shared/AxiosInstance';
+import scss from '../main.module.scss'
 
 const Page2 = () => {
   const [modal, setModal] = useState(false);
@@ -23,10 +13,10 @@ const Page2 = () => {
   const [current, setCurrent] = useState({});
   const [messageApi, contextHolder] = message.useMessage();
   const [update, setUpdate] = useState(true);
+  const [search, setSearch] = useState()
 
   useEffect(() => {
-    axios
-      .get('http://18.216.178.179/api/v1/langs')
+    axios.get('langs')
       .then((res) => setData(res.data.data));
   }, [update]);
 
@@ -50,7 +40,7 @@ const Page2 = () => {
   const deleteItem = (record) => {
     setLoading(true);
     axios
-      .delete(`http://18.216.178.179/api/v1/langs/${record._id}`, {
+      .delete(`langs/${record._id}`, {
         headers: {
           Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGUxYmU1MjNiNWZhYmM1YjUxYjc5ZCIsImlhdCI6MTY3NTYwNTUyMywiZXhwIjoxNjgzMzgxNTIzfQ.pEUX_SAIUZ2qjmPLpKz4TvXCOuyln_O84hXyNWQpn_c'}`,
         },
@@ -89,14 +79,11 @@ const Page2 = () => {
       formData.append('name_Ru', data.name_Ru);
       formData.append('name_En', data.name_En);
       formData.append('photo', data.photo['file']);
-      axios
-        .post(`http://18.216.178.179/api/v1/langs`, formData, {
+      axios.post(`langs`, formData, {
           headers: {
             Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGUxYmU1MjNiNWZhYmM1YjUxYjc5ZCIsImlhdCI6MTY3NTYwNTUyMywiZXhwIjoxNjgzMzgxNTIzfQ.pEUX_SAIUZ2qjmPLpKz4TvXCOuyln_O84hXyNWQpn_c`,
           },
-        })
-        .then((res) => {
-          console.log(res);
+        }).then((res) => {console.log(res);
           setLoading(false);
           onCencel();
           messageApi.open({
@@ -121,7 +108,7 @@ const Page2 = () => {
       formData.append('name_En', data.name_En);
       formData.append('photo', data.photo['file']);
       axios
-        .patch(`http://18.216.178.179/api/v1/langs/${current._id}`, formData, {
+        .patch(`langs/${current._id}`, formData, {
           headers: {
             authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGUxYmU1MjNiNWZhYmM1YjUxYjc5ZCIsImlhdCI6MTY3NTYwNTUyMywiZXhwIjoxNjgzMzgxNTIzfQ.pEUX_SAIUZ2qjmPLpKz4TvXCOuyln_O84hXyNWQpn_c`,
           },
@@ -180,12 +167,12 @@ const Page2 = () => {
         return (
           <>
             <EditTwoTone
-              style={{fontSize: 20}}
+              className={scss.btn}
               onClick={() => onChange(record)}
             />
             <DeleteTwoTone
               onClick={() => deleteItem(record)}
-              style={{marginLeft: 10, fontSize: 20}}
+              className={scss.btn}
               twoToneColor='red'
             />
           </>
@@ -198,12 +185,15 @@ const Page2 = () => {
     <>
       {contextHolder}
       <Row gutter={15}>
-        <Col span={12}>
-          <h1 style={{fontSize: 25}}>Languages list</h1>
+        <Col span={4.5}>
+          <h1 className={scss.title}>Languages list</h1>
         </Col>
-        <Col span={12}>
+        <Col span={14}>
+          <Input placeholder="Search..." className={scss.search} onChange={(e) => setSearch(e.target.value)} />
+        </Col>
+        <Col span={5}>
           <Button
-            style={{float: 'right', width: 250}}
+            className={scss.addBtn}
             icon={<PlusCircleTwoTone />}
             type='primary'
             onClick={() => [showModal(), setSubmitType(true)]}>
@@ -216,7 +206,6 @@ const Page2 = () => {
         title='Enter languae name'
         width={800}
         centered={true}
-        className='modal'
         footer={null}
         visible={modal}
         onCancel={onCencel}
@@ -230,7 +219,7 @@ const Page2 = () => {
             form={form}
             onFinishFailed={result}
             layout='vertical'
-            style={{padding: '5px 0 15px', textAlign: 'center'}}>
+            className={scss.form}>
             <Form.Item
               name='name_Uz'
               label='Name in Uzbek'
@@ -266,6 +255,7 @@ const Page2 = () => {
 
             <Form.Item
               name='photo'
+              label="Image"
               rules={[{required: true, message: 'Please upload photo'}]}>
               <Upload.Dragger
                 maxCount={1}
@@ -275,30 +265,26 @@ const Page2 = () => {
                   return false;
                 }}>
                 Drag file here OR <br />
-                <Button
-                  style={{
-                    marginTop: 10,
-                    border: 'dashed',
-                    borderColor: '#098fdc',
-                    color: '#098fdc',
-                  }}>
+                <Button icon={<UploadOutlined />}
+                className={scss.upload}>
                   Click Upload
                 </Button>
               </Upload.Dragger>
             </Form.Item>
 
-            <Form.Item style={{textAlign: 'end'}}>
+            <Form.Item className={scss.buttons}>
               <Button
                 danger
                 htmlType='button'
                 onClick={onCencel}
-                style={{width: 150}}>
+                className={scss.button}
+                >
                 Cencel
               </Button>
               <Button
                 type='primary'
-                htmlType='submit'
-                style={{width: 150, marginLeft: 15}}>
+                className={scss.button}
+                htmlType='submit'>
                 {submitType ? 'Add' : 'Update'}
               </Button>
             </Form.Item>
