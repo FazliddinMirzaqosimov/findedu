@@ -33,12 +33,12 @@ const Page1 = () => {
     setSortdEdus(
       edus.filter(
         (edu) =>
-          edu.name_En.toLowerCase().includes(input.toLowerCase()) ||
-          edu.name_Uz.toLowerCase().includes(input.toLowerCase()) ||
-          edu.name_Ru.toLowerCase().includes(input.toLowerCase()) ||
-          edu.description_En.toLowerCase().includes(input.toLowerCase()) ||
-          edu.description_Ru.toLowerCase().includes(input.toLowerCase()) ||
-          edu.description_Uz.toLowerCase().includes(input.toLowerCase()),
+          edu.name_En?.toLowerCase().includes(input.toLowerCase()) ||
+          edu.name_Uz?.toLowerCase().includes(input.toLowerCase()) ||
+          edu.name_Ru?.toLowerCase().includes(input.toLowerCase()) ||
+          edu.description_En?.toLowerCase().includes(input.toLowerCase()) ||
+          edu.description_Ru?.toLowerCase().includes(input.toLowerCase()) ||
+          edu.description_Uz?.toLowerCase().includes(input.toLowerCase()),
       ),
     );
   }, [input, edus]);
