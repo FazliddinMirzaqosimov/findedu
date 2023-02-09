@@ -14,6 +14,7 @@ import {
 import TextArea from 'antd/lib/input/TextArea';
 import React from 'react';
 import PropTypes from 'prop-types';
+import ImgCrop from 'antd-img-crop';
 
 function EduModal(props) {
   const {
@@ -87,15 +88,16 @@ function EduModal(props) {
               label='Image'
               // rules={[{required: true, message: 'Please enter the image'}]}
             >
-              <Upload.Dragger
-                maxCount={1}
-                accept='image/png, image/jpeg, image/jfif'
-                beforeUpload={(file) => {
-                  console.log(file);
-                  return false;
-                }}>
-                <Button icon={<UploadOutlined />}>Click to Upload</Button>
-              </Upload.Dragger>
+              <ImgCrop>
+                <Upload.Dragger
+                  maxCount={1}
+                  listType='picture'
+                  height={'200px'}
+                  accept='image/png, image/jpeg, image/jfif'
+                  beforeUpload={() => false}>
+                  <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                </Upload.Dragger>
+              </ImgCrop>
             </Form.Item>
             <Row justify={'space-between'} gutter={15}>
               <Col span={12}>
