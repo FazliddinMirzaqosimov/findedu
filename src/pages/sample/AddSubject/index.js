@@ -1,10 +1,10 @@
 import React from 'react';
+import Template from '../Template';
 
 const Page3 = () => {
   return (
     <>
-      <h2>Sample page 3</h2>
-      <p>You can kick start your app</p>
+      <Template url="subjects" title="Subjects" />
     </>
   );
 };
