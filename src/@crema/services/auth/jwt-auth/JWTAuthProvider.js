@@ -36,6 +36,7 @@ const JWTAuthAuthProvider = ({children}) => {
         });
         return;
       }
+
       setAuthToken(token);
       jwtAxios
         .get('user/' + id)
@@ -61,14 +62,14 @@ const JWTAuthAuthProvider = ({children}) => {
     getAuthUser();
   }, []);
 
-  const signInUser = async ({email, password}) => {
+  const signInUser = async ({email, password, remember}) => {
     dispatch({type: FETCH_START});
     try {
       const {data} = await jwtAxios.post('user/login', {email, password});
-      console.log(data);
-      localStorage.setItem('token', data.data.token);
+
       localStorage.setItem('id', data.data.user._id);
-      setAuthToken(data.token);
+      setAuthToken(data.token, remember);
+
       setJWTAuthData({
         user: data.data.user,
         isAuthenticated: true,
@@ -95,7 +96,7 @@ const JWTAuthAuthProvider = ({children}) => {
         password,
         passwordConfirm,
       });
-      localStorage.setItem('token', data.data.token);
+
       localStorage.setItem('id', data.data.user._id);
 
       setAuthToken(data.token);

@@ -18,10 +18,6 @@ const SignInJwtAuth = () => {
     history.push('/forget-password', {tab: 'jwtAuth'});
   };
 
-  function onRememberMe(e) {
-    console.log(`checked = ${e.target.checked}`);
-  }
-
   const {messages} = useIntl();
 
   return (
@@ -52,9 +48,11 @@ const SignInJwtAuth = () => {
           </Form.Item>
 
           <div className='rememberMe'>
-            <Checkbox onChange={onRememberMe}>
-              <IntlMessages id='common.rememberMe' />
-            </Checkbox>
+            <Form.Item valuePropName='checked' name='remember'>
+              <Checkbox>
+                <IntlMessages id='common.rememberMe' />
+              </Checkbox>
+            </Form.Item>
 
             <span className='sign-link' onClick={onGoToForgetPassword}>
               <IntlMessages id='common.forgetPassword' />
