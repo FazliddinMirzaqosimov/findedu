@@ -1,8 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import {Button,Form,Modal,Input,Upload,Row,Col,Spin,Table,message,} from 'antd';
-import {DeleteTwoTone, EditTwoTone, PlusCircleTwoTone, UploadOutlined} from '@ant-design/icons';
+import {
+  Button,
+  Form,
+  Modal,
+  Input,
+  Upload,
+  Row,
+  Col,
+  Spin,
+  Table,
+  message,
+} from 'antd';
+import {
+  DeleteTwoTone,
+  EditTwoTone,
+  PlusCircleTwoTone,
+  UploadOutlined,
+} from '@ant-design/icons';
 import axios from '../../../shared/AxiosInstance';
-import scss from '../main.module.scss'
+import scss from '../main.module.scss';
 
 const Page2 = () => {
   const [modal, setModal] = useState(false);
@@ -13,11 +29,10 @@ const Page2 = () => {
   const [current, setCurrent] = useState({});
   const [messageApi, contextHolder] = message.useMessage();
   const [update, setUpdate] = useState(true);
-  const [search, setSearch] = useState()
+  const [search, setSearch] = useState();
 
   useEffect(() => {
-    axios.get('langs')
-      .then((res) => setData(res.data.data));
+    axios.get('langs').then((res) => setData(res.data.data));
   }, [update]);
 
   const showModal = () => {
@@ -79,11 +94,14 @@ const Page2 = () => {
       formData.append('name_Ru', data.name_Ru);
       formData.append('name_En', data.name_En);
       formData.append('photo', data.photo['file']);
-      axios.post(`langs`, formData, {
+      axios
+        .post(`langs`, formData, {
           headers: {
             Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGUxYmU1MjNiNWZhYmM1YjUxYjc5ZCIsImlhdCI6MTY3NTYwNTUyMywiZXhwIjoxNjgzMzgxNTIzfQ.pEUX_SAIUZ2qjmPLpKz4TvXCOuyln_O84hXyNWQpn_c`,
           },
-        }).then((res) => {console.log(res);
+        })
+        .then((res) => {
+          console.log(res);
           setLoading(false);
           onCencel();
           messageApi.open({
@@ -182,7 +200,7 @@ const Page2 = () => {
     },
   ];
 
-  console.log(search)
+  console.log(search);
 
   return (
     <>
@@ -192,7 +210,11 @@ const Page2 = () => {
           <h1 className={scss.title}>Languages list</h1>
         </Col>
         <Col span={14}>
-          <Input placeholder="Search..." className={scss.search} onChange={(e) => setSearch(e.target.value)} />
+          <Input
+            placeholder='Search...'
+            className={scss.search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </Col>
         <Col span={5}>
           <Button
@@ -258,7 +280,7 @@ const Page2 = () => {
 
             <Form.Item
               name='photo'
-              label="Image"
+              label='Image'
               rules={[{required: true, message: 'Please upload photo'}]}>
               <Upload.Dragger
                 maxCount={1}
@@ -268,8 +290,7 @@ const Page2 = () => {
                   return false;
                 }}>
                 Drag file here OR <br />
-                <Button icon={<UploadOutlined />}
-                className={scss.upload}>
+                <Button icon={<UploadOutlined />} className={scss.upload}>
                   Click Upload
                 </Button>
               </Upload.Dragger>
@@ -280,14 +301,10 @@ const Page2 = () => {
                 danger
                 htmlType='button'
                 onClick={onCencel}
-                className={scss.button}
-                >
+                className={scss.button}>
                 Cencel
               </Button>
-              <Button
-                type='primary'
-                className={scss.button}
-                htmlType='submit'>
+              <Button type='primary' className={scss.button} htmlType='submit'>
                 {submitType ? 'Add' : 'Update'}
               </Button>
             </Form.Item>

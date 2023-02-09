@@ -1,16 +1,15 @@
-import {Button, Modal, Space, Spin, Table} from 'antd';
+import {Button, message, Modal, Space, Spin, Table} from 'antd';
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {API_URL} from 'shared/constants/ActionTypes';
-import axios from 'axios';
 import {BsCheckLg} from 'react-icons/bs';
 import {ImCross} from 'react-icons/im';
+import jwtAxios from '@crema/services/auth/jwt-auth/jwt-api';
 
 function EduTable(props) {
   const [eduId, setEduId] = useState('');
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const {editBtn, getEduCenters, token, edus} = props;
+  const {editBtn, getEduCenters, edus} = props;
 
   const columns = [
     {
@@ -34,19 +33,21 @@ function EduTable(props) {
     {
       title: 'Action',
       key: 'action',
-      render: (edu) => (
-        <Space>
-          <Button onClick={() => editBtn(edu)}>Edit</Button>
-          <Button
-            danger
-            onClick={() => {
-              setVisible(true);
-              setEduId(edu._id);
-            }}>
-            Delete
-          </Button>
-        </Space>
-      ),
+      render: (_, edu) => {
+        return (
+          <Space>
+            <Button onClick={() => editBtn(edu)}>Edit</Button>
+            <Button
+              danger
+              onClick={() => {
+                setVisible(true);
+                setEduId(edu._id);
+              }}>
+              Delete
+            </Button>
+          </Space>
+        );
+      },
     },
   ];
   edus.forEach((el, index) => (el.key = index));
@@ -71,15 +72,15 @@ function EduTable(props) {
         visible={visible}
         onOk={() => {
           setLoading(true);
-          axios
-            .delete(`${API_URL}api/v1/edu/${eduId}`, {
-              headers: {
-                Authorization: token,
-              },
-            })
+          jwtAxios
+            .delete(`edu/${eduId}`)
             .then(() => {
               getEduCenters();
               setVisible(false);
+              setLoading(false);
+            })
+            .catch(() => {
+              message.error('Cannot delete this Edu Center', 3);
               setLoading(false);
             });
         }}

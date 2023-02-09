@@ -38,11 +38,11 @@ const JWTAuthAuthProvider = ({children}) => {
       }
       setAuthToken(token);
       jwtAxios
-        .get('/user/' + id)
+        .get('user/' + id)
         .then((res) => {
-          // console.log('Esla Wuni', res);
+          console.log('Esla Wuni', res);
           setJWTAuthData({
-            user: res,
+            user: res.data.data,
             isLoading: false,
             isAuthenticated: true,
           });

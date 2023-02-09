@@ -12,7 +12,6 @@ import {
   Upload,
 } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
-import {Option} from 'antd/lib/mentions';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -58,7 +57,10 @@ function EduModal(props) {
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item name={'name_En'} label='Name (en)'>
+                <Form.Item
+                  name={'name_En'}
+                  label='Name (en)'
+                  rules={[{required: true, message: 'Name is required'}]}>
                   <Input />
                 </Form.Item>
               </Col>
@@ -103,9 +105,9 @@ function EduModal(props) {
                     placeholder='Please select'
                     allowClear>
                     {lesson.langs.map((data) => (
-                      <Option key={data._id} value={data._id}>
+                      <Select.Option key={data._id} value={data._id}>
                         {data.name_En}
-                      </Option>
+                      </Select.Option>
                     ))}
                   </Select>
                 </Form.Item>
@@ -117,9 +119,9 @@ function EduModal(props) {
                     placeholder='Please select'
                     allowClear>
                     {lesson.it.map((data) => (
-                      <Option key={data._id} value={data._id}>
+                      <Select.Option key={data._id} value={data._id}>
                         {data.name_En}
-                      </Option>
+                      </Select.Option>
                     ))}
                   </Select>
                 </Form.Item>
@@ -146,10 +148,10 @@ function EduModal(props) {
                     mode='multiple'
                     placeholder='Please select'
                     allowClear>
-                    {lesson.others.map((data) => (
-                      <Option key={data._id} value={data._id}>
+                    {lesson.other.map((data) => (
+                      <Select.Option key={data._id} value={data._id}>
                         {data.name_En}
-                      </Option>
+                      </Select.Option>
                     ))}
                   </Select>
                 </Form.Item>
