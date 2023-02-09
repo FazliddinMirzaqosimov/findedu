@@ -4,11 +4,9 @@ import './index.scss';
 import EduTable from './EduTable';
 import EduModal from './EduModal';
 import jwtAxios from '@crema/services/auth/jwt-auth/jwt-api';
+import {BiRefresh} from 'react-icons/bi';
 
 const Page1 = () => {
-  jwtAxios.defaults.headers.common['Authorization'] =
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGUxYmU1MjNiNWZhYmM1YjUxYjc5ZCIsImlhdCI6MTY3NTYwNTUyMywiZXhwIjoxNjgzMzgxNTIzfQ.pEUX_SAIUZ2qjmPLpKz4TvXCOuyln_O84hXyNWQpn_c';
-
   const [isVisible, setIsVisible] = useState(false);
   const [edus, setEdus] = useState([]);
   const [sotedEdus, setSortdEdus] = useState([]);
@@ -31,7 +29,7 @@ const Page1 = () => {
   };
   useEffect(() => {
     // setSortdEdus([]);
-    console.log(edus);
+    // console.log(edus);
     setSortdEdus(
       edus.filter(
         (edu) =>
@@ -75,9 +73,6 @@ const Page1 = () => {
     getEduCenters();
   }, []);
 
-  // const patchEdu = (data) => {
-  //   console.log(data);
-  // };
   const postEdu = (data) => {
     const formData = new FormData();
     data.photo?.['file'] && formData.append('photo', data.photo['file']);
@@ -128,8 +123,8 @@ const Page1 = () => {
       ]),
     );
 
-    console.log(data);
-    console.log([...formData]);
+    // console.log(data);
+    // console.log([...formData]);
     setLoading({...loading, modal: true});
 
     if (editId) {
@@ -165,8 +160,10 @@ const Page1 = () => {
   };
   function editBtn(edu) {
     console.log(edu);
+    form.resetFields();
+
     const logEdu = JSON.parse(JSON.stringify(edu));
-    logEdu.phone = edu.phone?.[0] && edu.phone[0].split(',');
+    logEdu.phone = edu.phone?.[0] && JSON.parse(edu.phone[0])[0]?.split(',');
     logEdu.langs = edu.langs.map((lang) => lang._id);
     logEdu.other = edu.other.map((other) => other._id);
     logEdu.subjects = edu.subjects.map((subject) => subject._id);
@@ -179,21 +176,28 @@ const Page1 = () => {
       if (edu[key] === '[]') continue;
       fields.push({name: key, value: logEdu[key]});
     }
-    console.log(fields);
+    // console.log(fields);
     form.setFields(fields);
     setEditId(edu._id);
     setIsVisible(true);
   }
   return (
     <div>
+      <h1>Educations</h1>
       <Row justify='space-between' align='center' gutter={12}>
-        <Col span={20}>
+        <Col span={18}>
           <Input
             block
             placeholder='Search...'
             onChange={(e) => setInput(e.target.value)}
           />
         </Col>
+        <Col span={2}>
+          <Button
+            icon={<BiRefresh size={'large'} />}
+            block
+            onClick={getEduCenters}></Button>
+        </Col>{' '}
         <Col span={4}>
           <Button
             type='primary'
