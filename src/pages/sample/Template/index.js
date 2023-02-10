@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {Button,Form,Modal,Input,Upload,Row,Col,Spin,Table,message,Select} from 'antd';
-import {DeleteTwoTone, EditTwoTone, PlusCircleTwoTone, UploadOutlined} from '@ant-design/icons';
+import {DeleteTwoTone, EditTwoTone, PlusCircleTwoTone, UploadOutlined, ExclamationCircleTwoTone} from '@ant-design/icons';
 import axios from '@crema/services/auth/jwt-auth/jwt-api';
 import scss from '../main.module.scss'
 axios.defaults.headers.common['Authorization'] =
     'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGUxYmU1MjNiNWZhYmM1YjUxYjc5ZCIsImlhdCI6MTY3NTYwNTUyMywiZXhwIjoxNjgzMzgxNTIzfQ.pEUX_SAIUZ2qjmPLpKz4TvXCOuyln_O84hXyNWQpn_c';
 
 const Template = ({url, title}) => {
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState({modal: false, delete: false});
   const [loading, setLoading] = useState({modal: false, table: true});
   const [data, setData] = useState([]);
   const [form] = Form.useForm();
@@ -17,6 +17,7 @@ const Template = ({url, title}) => {
   const [update, setUpdate] = useState(true);
   const [search, setSearch] = useState("")
   const [lang, setLang] = useState("uz");
+  const {confirm} = Modal
 
   useEffect(() => {
     axios.get(`${url}`)
@@ -26,15 +27,15 @@ const Template = ({url, title}) => {
   }, [update]);
 
   const showModal = () => {
-    setModal(true);
+    setModal({...modal, modal: true});
   };
   
   const onOk = () => {
-    setModal(false);
+    setModal({...modal, modal: false});
   };
 
   const onCencel = () => {
-    setModal(false);
+    setModal({...modal, modal: false});
     form.resetFields();
   };
 
@@ -65,6 +66,22 @@ const Template = ({url, title}) => {
           content: 'Something went wrong',
         });
       });
+  };
+
+  const showDeleteConfirm = (record) => {
+    confirm({
+      title: 'Are you sure to delete this?',
+      icon: <ExclamationCircleTwoTone twoToneColor="red" />,
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        deleteItem(record)
+      },
+      onCancel() {
+        setModal({...modal, delete: false})
+      },
+    });
   };
 
   const onChange = (record) => {
@@ -171,7 +188,7 @@ const Template = ({url, title}) => {
               onClick={() => onChange(record)}
             />
             <DeleteTwoTone
-              onClick={() => deleteItem(record)}
+              onClick={() => showDeleteConfirm(record)}
               className={scss.btn}
               twoToneColor='red'
             />
@@ -233,7 +250,7 @@ const Template = ({url, title}) => {
         width={800}
         centered={true}
         footer={null}
-        visible={modal}
+        visible={modal.modal}
         onCancel={onCencel}
         onOk={onOk}>
         <Spin spinning={loading.modal}>
@@ -284,14 +301,7 @@ const Template = ({url, title}) => {
                 beforeUpload={(file) => {
                   console.log({file});
                   return false;
-                }} 
-                defaultFileList={[
-                  {
-                    uid: "image",
-                    name: "language_img.png",
-                    url: "https://thumbs.dreamstime.com/b/foreign-language-translation-creative-icon-logo-vector-foreign-language-translation-creative-icon-logo-vector-illustration-151350438.jpg"
-                  }
-                ]}>
+                }}>
                 Drag file here OR <br />
                 <Button icon={<UploadOutlined />}
                 className={scss.upload}>
