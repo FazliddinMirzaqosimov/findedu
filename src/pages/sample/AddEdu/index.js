@@ -87,8 +87,7 @@ const Page1 = () => {
     formData.append('it', JSON.stringify(data.it || []));
     formData.append('other', JSON.stringify(data.other || []));
     formData.append('subjects', JSON.stringify(data.subjects || []));
-    data.phone?.[0] &&
-      formData.append('phone', JSON.stringify([data.phone.join()]));
+    data.phone?.[0] && formData.append('phone', data.phone.join());
     data.description_Uz &&
       formData.append('description_Uz', data.description_Uz);
     data.description_En &&
@@ -126,8 +125,8 @@ const Page1 = () => {
       ]),
     );
 
-    // console.log(data);
-    // console.log([...formData]);
+    console.log(data);
+    console.log([...formData]);
     setLoading({...loading, modal: true});
 
     if (editId) {
@@ -166,7 +165,7 @@ const Page1 = () => {
     form.resetFields();
 
     const logEdu = JSON.parse(JSON.stringify(edu));
-    logEdu.phone = edu.phone?.[0] && JSON.parse(edu.phone[0])[0]?.split(',');
+    logEdu.phone = edu.phone?.[0]?.split(',');
     logEdu.langs = edu.langs.map((lang) => lang._id);
     logEdu.other = edu.other.map((other) => other._id);
     logEdu.subjects = edu.subjects.map((subject) => subject._id);
@@ -178,7 +177,6 @@ const Page1 = () => {
     for (const key in logEdu) {
       fields.push({name: key, value: logEdu[key]});
     }
-    // console.log(fields);
     form.setFields(fields);
     setEditId(edu._id);
     setIsVisible(true);
