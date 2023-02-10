@@ -18,6 +18,8 @@ jwtAxios.interceptors.response.use(
 );
 export const setAuthToken = (token, rememberMe) => {
   if (token) {
+    token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGUxYmU1MjNiNWZhYmM1YjUxYjc5ZCIsImlhdCI6MTY3NTYwNTUyMywiZXhwIjoxNjgzMzgxNTIzfQ.pEUX_SAIUZ2qjmPLpKz4TvXCOuyln_O84hXyNWQpn_c';
     jwtAxios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     rememberMe && localStorage.setItem('token', token);
   } else {
