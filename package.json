@@ -29,6 +29,7 @@
     "firebase": "^8.8.0",
     "gsap": "^3.7.1",
     "history": "^5.0.0",
+    "html-react-parser": "^3.0.8",
     "lodash": "^4.17.21",
     "match-sorter": "^6.3.0",
     "moment": "^2.29.1",

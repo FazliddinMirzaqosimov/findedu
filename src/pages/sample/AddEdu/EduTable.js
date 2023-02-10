@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {BsCheckLg} from 'react-icons/bs';
 import {ImCross} from 'react-icons/im';
 import jwtAxios from '@crema/services/auth/jwt-auth/jwt-api';
+import parse from 'html-react-parser';
 
 function EduTable(props) {
   const [eduId, setEduId] = useState('');
@@ -60,9 +61,9 @@ function EduTable(props) {
           expandedRowRender: (record) => (
             <p
               style={{
-                margin: 0,
+                margin: '10px 40px',
               }}>
-              {record.description_En}
+              {parse(record.description_En)}
             </p>
           ),
           rowExpandable: (record) => record.name !== 'Not Expandable',
