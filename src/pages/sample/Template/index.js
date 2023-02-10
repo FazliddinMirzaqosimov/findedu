@@ -1,24 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Button,
-  Form,
-  Modal,
-  Input,
-  Upload,
-  Row,
-  Col,
-  Spin,
-  Table,
-  message,
-  Select,
-} from 'antd';
-import {
-  DeleteTwoTone,
-  EditTwoTone,
-  PlusCircleTwoTone,
-  UploadOutlined,
-  ExclamationCircleTwoTone,
-} from '@ant-design/icons';
+import {Button,Form,Modal,Input,Upload,Row,Col,Spin,Table,message,Select,Typography} from 'antd';
+import {DeleteTwoTone, EditTwoTone, PlusCircleTwoTone, UploadOutlined, ExclamationCircleTwoTone} from '@ant-design/icons';
 import axios from '@crema/services/auth/jwt-auth/jwt-api';
 import scss from '../main.module.scss';
 // axios.defaults.headers.common['Authorization'] =
@@ -177,30 +159,37 @@ const Template = ({url, title}) => {
       key: 1,
       title: 'ID',
       dataIndex: '_id',
+      width: "200%",
     },
     {
       key: 2,
-      title: 'Name(Uz)',
+      title: 'Name (Uz)',
       dataIndex: 'name_Uz',
+      width: "150%",
     },
     {
       key: 3,
-      title: 'Name(Ru)',
+      title: 'Name (Ru)',
       dataIndex: 'name_Ru',
+      width: "150%",
     },
     {
       key: 4,
-      title: 'Name(En)',
+      title: 'Name (En)',
       dataIndex: 'name_En',
+      width: "150%",
     },
     {
       key: 5,
       title: 'URL',
       dataIndex: 'photo',
+      render: (text) => <Typography.Text ellipsis>{text}</Typography.Text>,
+      width: "150%",
     },
     {
       key: 6,
       title: 'Actions',
+      width: "70%",
       render: (record) => {
         return (
           <>
@@ -330,12 +319,8 @@ const Template = ({url, title}) => {
 
             <Form.Item
               name='photo'
-              label='Image'
-              rules={[{required: true, message: 'Please upload photo'}]}>
-              <Upload.Dragger
-                listType='picture'
-                maxCount={1}
-                accept='image/png, image/jpeg'
+              label="Image">
+              <Upload.Dragger listType="picture" maxCount={1} accept='image/png, image/jpeg'
                 beforeUpload={(file) => {
                   console.log({file});
                   return false;
@@ -364,7 +349,7 @@ const Template = ({url, title}) => {
       </Modal>
 
       <Spin spinning={loading.table}>
-        <Table columns={columns} dataSource={data}></Table>
+        <Table tableLayout='fixed' className={scss.table} columns={columns} dataSource={data}></Table>
       </Spin>
     </>
   );
