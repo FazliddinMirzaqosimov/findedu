@@ -11,10 +11,10 @@ import {
   Spin,
   Upload,
 } from 'antd';
-import TextArea from 'antd/lib/input/TextArea';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ImgCrop from 'antd-img-crop';
+import ReactQuill from 'react-quill';
 
 function EduModal(props) {
   const {
@@ -69,17 +69,17 @@ function EduModal(props) {
             <Row justify={'space-between'} gutter={15}>
               <Col span={8}>
                 <Form.Item name={'description_Uz'} label='Description (uz)'>
-                  <TextArea />
+                  <ReactQuill theme='snow' />
                 </Form.Item>
               </Col>
               <Col span={8}>
                 <Form.Item name={'description_Ru'} label='Description (ru)'>
-                  <TextArea />
+                  <ReactQuill theme='snow' />
                 </Form.Item>
               </Col>
               <Col span={8}>
                 <Form.Item name={'description_En'} label='Description (en)'>
-                  <TextArea />
+                  <ReactQuill theme='snow' />
                 </Form.Item>
               </Col>
             </Row>

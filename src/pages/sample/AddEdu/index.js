@@ -5,6 +5,7 @@ import EduTable from './EduTable';
 import EduModal from './EduModal';
 import jwtAxios from '@crema/services/auth/jwt-auth/jwt-api';
 import {BiRefresh} from 'react-icons/bi';
+import 'react-quill/dist/quill.snow.css';
 
 const Page1 = () => {
   // console.log(jwtAxios.defaults.headers.common['Authorization']);
