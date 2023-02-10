@@ -7,6 +7,9 @@ import jwtAxios from '@crema/services/auth/jwt-auth/jwt-api';
 import {BiRefresh} from 'react-icons/bi';
 
 const Page1 = () => {
+  // console.log(jwtAxios.defaults.headers.common['Authorization']);
+  // jwtAxios.defaults.headers.common['Authorization'] =
+  //   'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGUxYmU1MjNiNWZhYmM1YjUxYjc5ZCIsImlhdCI6MTY3NTYwNTUyMywiZXhwIjoxNjgzMzgxNTIzfQ.pEUX_SAIUZ2qjmPLpKz4TvXCOuyln_O84hXyNWQpn_c';
   const [isVisible, setIsVisible] = useState(false);
   const [edus, setEdus] = useState([]);
   const [sotedEdus, setSortdEdus] = useState([]);
@@ -168,12 +171,11 @@ const Page1 = () => {
     logEdu.other = edu.other.map((other) => other._id);
     logEdu.subjects = edu.subjects.map((subject) => subject._id);
     logEdu.it = edu.it.map((it) => it._id);
-    logEdu.links.forEach((link) => {
-      edu[link.name] = link.link;
+    edu.links.forEach((link) => {
+      logEdu[link.name] = link.link;
     });
     const fields = [];
     for (const key in logEdu) {
-      if (edu[key] === '[]') continue;
       fields.push({name: key, value: logEdu[key]});
     }
     // console.log(fields);

@@ -2,11 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {Button,Form,Modal,Input,Upload,Row,Col,Spin,Table,message,Select,Typography} from 'antd';
 import {DeleteTwoTone, EditTwoTone, PlusCircleTwoTone, UploadOutlined, ExclamationCircleTwoTone} from '@ant-design/icons';
 import axios from '@crema/services/auth/jwt-auth/jwt-api';
-import scss from '../main.module.scss'
-axios.defaults.headers.common['Authorization'] =
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGUxYmU1MjNiNWZhYmM1YjUxYjc5ZCIsImlhdCI6MTY3NTYwNTUyMywiZXhwIjoxNjgzMzgxNTIzfQ.pEUX_SAIUZ2qjmPLpKz4TvXCOuyln_O84hXyNWQpn_c';
-
-console.log(localStorage.getItem("token"))
+import scss from '../main.module.scss';
+// axios.defaults.headers.common['Authorization'] =
+//   'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGUxYmU1MjNiNWZhYmM1YjUxYjc5ZCIsImlhdCI6MTY3NTYwNTUyMywiZXhwIjoxNjgzMzgxNTIzfQ.pEUX_SAIUZ2qjmPLpKz4TvXCOuyln_O84hXyNWQpn_c';
 
 const Template = ({url, title}) => {
   const [modal, setModal] = useState({modal: false, delete: false});
@@ -17,21 +15,21 @@ const Template = ({url, title}) => {
   const [current, setCurrent] = useState({});
   const [messageApi, contextHolder] = message.useMessage();
   const [update, setUpdate] = useState(true);
-  const [search, setSearch] = useState("")
-  const [lang, setLang] = useState("uz");
-  const {confirm} = Modal
+  const [search, setSearch] = useState('');
+  const [lang, setLang] = useState('uz');
+  const {confirm} = Modal;
 
   useEffect(() => {
-    axios.get(`${url}`)
-      .then((res) => {
-        setLoading({...loading, table: false})
-        setData(res.data.data)});
+    axios.get(`${url}`).then((res) => {
+      setLoading({...loading, table: false});
+      setData(res.data.data);
+    });
   }, [update]);
 
   const showModal = () => {
     setModal({...modal, modal: true});
   };
-  
+
   const onOk = () => {
     setModal({...modal, modal: false});
   };
@@ -73,15 +71,15 @@ const Template = ({url, title}) => {
   const showDeleteConfirm = (record) => {
     confirm({
       title: 'Are you sure to delete this?',
-      icon: <ExclamationCircleTwoTone twoToneColor="red" />,
+      icon: <ExclamationCircleTwoTone twoToneColor='red' />,
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
       onOk() {
-        deleteItem(record)
+        deleteItem(record);
       },
       onCancel() {
-        setModal({...modal, delete: false})
+        setModal({...modal, delete: false});
       },
     });
   };
@@ -101,8 +99,10 @@ const Template = ({url, title}) => {
       data.name_Ru && formData.append('name_Ru', data.name_Ru);
       data.name_En && formData.append('name_En', data.name_En);
       data.photo && formData.append('photo', data.photo['file']);
-      axios.post(`${url}`, formData)
-          .then((res) => {console.log(res);
+      axios
+        .post(`${url}`, formData)
+        .then((res) => {
+          console.log(res);
           setLoading({...loading, modal: false});
           onCencel();
           messageApi.open({
@@ -127,7 +127,8 @@ const Template = ({url, title}) => {
       formData.append('name_En', data.name_En);
       formData.append('photo', data.photo['file']);
 
-      axios.patch(`${url}/${current._id}`, formData)
+      axios
+        .patch(`${url}/${current._id}`, formData)
         .then((res) => {
           setLoading({...loading, modal: false});
           onCencel();
@@ -150,8 +151,8 @@ const Template = ({url, title}) => {
   };
 
   const setLanguage = (value) => {
-    setLang(value)
-  }
+    setLang(value);
+  };
 
   const columns = [
     {
@@ -205,23 +206,32 @@ const Template = ({url, title}) => {
         );
       },
     },
-  ]
+  ];
 
-  if(lang == "uz"){
-    columns[1] = {...columns[1], filteredValue: [search.toLocaleLowerCase()],
-    onFilter: (value, record) => {
-      return String(record.name_Uz).toLocaleLowerCase().includes(value) 
-    }}
-  }else if(lang == "ru"){
-    columns[2] = {...columns[2], filteredValue: [search.toLocaleLowerCase()],
-    onFilter: (value, record) => {
-      return String(record.name_Ru).toLocaleLowerCase().includes(value) 
-    }} 
-  }else{
-    columns[3] = {...columns[3], filteredValue: [search.toLocaleLowerCase()],
-    onFilter: (value, record) => {
-      return String(record.name_En).toLocaleLowerCase().includes(value) 
-    }} 
+  if (lang == 'uz') {
+    columns[1] = {
+      ...columns[1],
+      filteredValue: [search.toLocaleLowerCase()],
+      onFilter: (value, record) => {
+        return String(record.name_Uz).toLocaleLowerCase().includes(value);
+      },
+    };
+  } else if (lang == 'ru') {
+    columns[2] = {
+      ...columns[2],
+      filteredValue: [search.toLocaleLowerCase()],
+      onFilter: (value, record) => {
+        return String(record.name_Ru).toLocaleLowerCase().includes(value);
+      },
+    };
+  } else {
+    columns[3] = {
+      ...columns[3],
+      filteredValue: [search.toLocaleLowerCase()],
+      onFilter: (value, record) => {
+        return String(record.name_En).toLocaleLowerCase().includes(value);
+      },
+    };
   }
 
   return (
@@ -232,14 +242,19 @@ const Template = ({url, title}) => {
           <h1 className={scss.title}>{title} list</h1>
         </Col>
         <Col span={14} className={scss.center}>
-          <Input allowClear placeholder="Search by name. . ." className={scss.search} onChange={(e) => setSearch(e.target.value)} />
-          <Select 
+          <Input
+            allowClear
+            placeholder='Search by name. . .'
+            className={scss.search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Select
             className={scss.select}
-            defaultValue="UZ"
+            defaultValue='UZ'
             onChange={setLanguage}
             options={[
-              { value: 'ru', label: 'RU' },
-              { value: 'en', label: 'EN' },
+              {value: 'ru', label: 'RU'},
+              {value: 'en', label: 'EN'},
             ]}
           />
         </Col>
@@ -311,8 +326,7 @@ const Template = ({url, title}) => {
                   return false;
                 }}>
                 Drag file here OR <br />
-                <Button icon={<UploadOutlined />}
-                className={scss.upload}>
+                <Button icon={<UploadOutlined />} className={scss.upload}>
                   Click to Upload
                 </Button>
               </Upload.Dragger>
@@ -323,14 +337,10 @@ const Template = ({url, title}) => {
                 danger
                 htmlType='button'
                 onClick={onCencel}
-                className={scss.button}
-                >
+                className={scss.button}>
                 Cencel
               </Button>
-              <Button
-                type='primary'
-                className={scss.button}
-                htmlType='submit'>
+              <Button type='primary' className={scss.button} htmlType='submit'>
                 {submitType ? 'Add' : 'Update'}
               </Button>
             </Form.Item>

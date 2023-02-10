@@ -30,7 +30,7 @@ function EduModal(props) {
   return (
     <Modal
       title='Add education'
-      visible={isVisible}
+      open={isVisible}
       width={'100%'}
       style={{top: '10vh'}}
       onCancel={() => {
