@@ -1,6 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import {Button,Form,Modal,Input,Upload,Row,Col,Spin,Table,message,Space} from 'antd';
-import {DeleteOutlined, EditTwoTone, PlusCircleTwoTone, UploadOutlined, ExclamationCircleTwoTone} from '@ant-design/icons';
+import {
+  Button,
+  Form,
+  Modal,
+  Input,
+  Upload,
+  Row,
+  Col,
+  Spin,
+  Table,
+  message,
+  Space,
+} from 'antd';
+import {
+  DeleteOutlined,
+  EditTwoTone,
+  PlusCircleTwoTone,
+  UploadOutlined,
+  ExclamationCircleTwoTone,
+} from '@ant-design/icons';
 import axios from '@crema/services/auth/jwt-auth/jwt-api';
 import scss from '../main.module.scss';
 
@@ -14,10 +32,10 @@ const Template = ({url, title}) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [update, setUpdate] = useState(true);
   const [search, setSearch] = useState('');
-  const [filtered, setFIltered] = useState([])
+  const [filtered, setFIltered] = useState([]);
   const {confirm} = Modal;
 
-  console.log(search)
+  console.log(search);
 
   useEffect(() => {
     axios.get(`${url}`).then((res) => {
@@ -28,13 +46,14 @@ const Template = ({url, title}) => {
 
   useEffect(() => {
     setFIltered(
-      data.filter((item) =>
-        item.name_Uz.toLowerCase().includes(search.toLocaleLowerCase()) ||
-        item.name_Ru.toLowerCase().includes(search.toLocaleLowerCase()) ||
-        item.name_En.toLowerCase().includes(search.toLocaleLowerCase()) 
-      )
-    )
-  }, [data, search]) 
+      data.filter(
+        (item) =>
+          item.name_Uz.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          item.name_Ru.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          item.name_En.toLowerCase().includes(search.toLocaleLowerCase()),
+      ),
+    );
+  }, [data, search]);
 
   const showModal = () => {
     setModal({...modal, modal: true});
@@ -184,9 +203,15 @@ const Template = ({url, title}) => {
       title: 'Image',
       dataIndex: 'photo',
       render: (text) => {
-        return (
-          <img className={scss.tableImg} src={`http://18.216.178.179/api/v1/img/${text}`} />
-        )
+        console.log(text);
+        return text === '[object Object]' || text === 'undefined' ? (
+          ''
+        ) : (
+          <img
+            className={scss.tableImg}
+            src={`http://18.216.178.179/api/v1/img/${text}`}
+          />
+        );
       },
       width: 80,
     },
@@ -200,13 +225,11 @@ const Template = ({url, title}) => {
             <Space>
               <Button
                 onClick={() => onChange(record)}
-                icon={<EditTwoTone />}>
-              </Button>
+                icon={<EditTwoTone />}></Button>
               <Button
                 danger
                 icon={<DeleteOutlined />}
-                onClick={() => showDeleteConfirm(record)}>
-              </Button>
+                onClick={() => showDeleteConfirm(record)}></Button>
             </Space>
           </>
         );
@@ -321,7 +344,11 @@ const Template = ({url, title}) => {
       </Modal>
 
       <Spin spinning={loading.table}>
-        <Table tableLayout='fixed' className={scss.table} columns={columns} dataSource={filtered}></Table>
+        <Table
+          tableLayout='fixed'
+          className={scss.table}
+          columns={columns}
+          dataSource={filtered}></Table>
       </Spin>
     </>
   );
