@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Button,Form,Modal,Input,Upload,Row,Col,Spin,Table,message} from 'antd';
-import {DeleteTwoTone, EditTwoTone, PlusCircleTwoTone, UploadOutlined, ExclamationCircleTwoTone} from '@ant-design/icons';
+import {Button,Form,Modal,Input,Upload,Row,Col,Spin,Table,message,Space} from 'antd';
+import {DeleteOutlined, EditTwoTone, PlusCircleTwoTone, UploadOutlined, ExclamationCircleTwoTone} from '@ant-design/icons';
 import axios from '@crema/services/auth/jwt-auth/jwt-api';
 import scss from '../main.module.scss';
 
@@ -188,24 +188,26 @@ const Template = ({url, title}) => {
           <img className={scss.tableImg} src={`http://18.216.178.179/api/v1/img/${text}`} />
         )
       },
-      width: 100,
+      width: 80,
     },
     {
       key: 5,
       title: 'Actions',
-      width: 90,
+      width: 111,
       render: (record) => {
         return (
           <>
-            <EditTwoTone
-              className={scss.btn}
-              onClick={() => onChange(record)}
-            />
-            <DeleteTwoTone
-              onClick={() => showDeleteConfirm(record)}
-              className={scss.btn}
-              twoToneColor='red'
-            />
+            <Space>
+              <Button
+                onClick={() => onChange(record)}
+                icon={<EditTwoTone />}>
+              </Button>
+              <Button
+                danger
+                icon={<DeleteOutlined />}
+                onClick={() => showDeleteConfirm(record)}>
+              </Button>
+            </Space>
           </>
         );
       },
