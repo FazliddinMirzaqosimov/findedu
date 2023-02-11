@@ -165,19 +165,19 @@ const Template = ({url, title}) => {
       key: 1,
       title: 'Name (Uz)',
       dataIndex: 'name_Uz',
-      width: "150%",
+      width: '150%',
     },
     {
       key: 2,
       title: 'Name (Ru)',
       dataIndex: 'name_Ru',
-      width: "150%",
+      width: '150%',
     },
     {
       key: 3,
       title: 'Name (En)',
       dataIndex: 'name_En',
-      width: "150%",
+      width: '150%',
     },
     {
       key: 4,
@@ -286,10 +286,11 @@ const Template = ({url, title}) => {
               <Input placeholder='Enter the name in English' />
             </Form.Item>
 
-            <Form.Item
-              name='photo'
-              label="Image">
-              <Upload.Dragger listType="picture" maxCount={1} accept='image/png, image/jpeg'
+            <Form.Item name='photo' label='Image'>
+              <Upload.Dragger
+                listType='picture'
+                maxCount={1}
+                accept='image/png, image/jpeg'
                 beforeUpload={(file) => {
                   console.log({file});
                   return false;
