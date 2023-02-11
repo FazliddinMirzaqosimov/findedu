@@ -5,6 +5,7 @@ import {BsCheckLg} from 'react-icons/bs';
 import {ImCross} from 'react-icons/im';
 import jwtAxios from '@crema/services/auth/jwt-auth/jwt-api';
 import parse from 'html-react-parser';
+import {DeleteOutlined, EditTwoTone} from '@ant-design/icons';
 
 function EduTable(props) {
   const [eduId, setEduId] = useState('');
@@ -37,15 +38,16 @@ function EduTable(props) {
       render: (_, edu) => {
         return (
           <Space>
-            <Button onClick={() => editBtn(edu)}>Edit</Button>
+            <Button
+              onClick={() => editBtn(edu)}
+              icon={<EditTwoTone />}></Button>
             <Button
               danger
+              icon={<DeleteOutlined />}
               onClick={() => {
                 setVisible(true);
                 setEduId(edu._id);
-              }}>
-              Delete
-            </Button>
+              }}></Button>
           </Space>
         );
       },

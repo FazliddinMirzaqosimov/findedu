@@ -6,6 +6,7 @@ import EduModal from './EduModal';
 import jwtAxios from '@crema/services/auth/jwt-auth/jwt-api';
 import {BiRefresh} from 'react-icons/bi';
 import 'react-quill/dist/quill.snow.css';
+import {PlusCircleTwoTone} from '@ant-design/icons';
 
 const Page1 = () => {
   // console.log(jwtAxios.defaults.headers.common['Authorization']);
@@ -203,6 +204,7 @@ const Page1 = () => {
           <Button
             type='primary'
             block
+            icon={<PlusCircleTwoTone />}
             onClick={() => {
               setEditId('');
               form.resetFields();
