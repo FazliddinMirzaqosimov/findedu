@@ -30,6 +30,7 @@ const Page1 = () => {
     setEdus((await jwtAxios.get(`edu`)).data.data);
     setLoading({...loading, table: false});
   };
+  
   useEffect(() => {
     // setSortdEdus([]);
     // console.log(edus);

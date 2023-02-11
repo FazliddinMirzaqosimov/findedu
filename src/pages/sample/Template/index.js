@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Button,Form,Modal,Input,Upload,Row,Col,Spin,Table,message,Select,Typography} from 'antd';
+import {Button,Form,Modal,Input,Upload,Row,Col,Spin,Table,message} from 'antd';
 import {DeleteTwoTone, EditTwoTone, PlusCircleTwoTone, UploadOutlined, ExclamationCircleTwoTone} from '@ant-design/icons';
 import axios from '@crema/services/auth/jwt-auth/jwt-api';
 import scss from '../main.module.scss';
-// axios.defaults.headers.common['Authorization'] =
-//   'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGUxYmU1MjNiNWZhYmM1YjUxYjc5ZCIsImlhdCI6MTY3NTYwNTUyMywiZXhwIjoxNjgzMzgxNTIzfQ.pEUX_SAIUZ2qjmPLpKz4TvXCOuyln_O84hXyNWQpn_c';
 
 const Template = ({url, title}) => {
   const [modal, setModal] = useState({modal: false, delete: false});
@@ -16,8 +14,10 @@ const Template = ({url, title}) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [update, setUpdate] = useState(true);
   const [search, setSearch] = useState('');
-  const [lang, setLang] = useState('uz');
+  const [filtered, setFIltered] = useState([])
   const {confirm} = Modal;
+
+  console.log(search)
 
   useEffect(() => {
     axios.get(`${url}`).then((res) => {
@@ -25,6 +25,16 @@ const Template = ({url, title}) => {
       setData(res.data.data);
     });
   }, [update]);
+
+  useEffect(() => {
+    setFIltered(
+      data.filter((item) =>
+        item.name_Uz.toLowerCase().includes(search.toLocaleLowerCase()) ||
+        item.name_Ru.toLowerCase().includes(search.toLocaleLowerCase()) ||
+        item.name_En.toLowerCase().includes(search.toLocaleLowerCase()) 
+      )
+    )
+  }, [data, search]) 
 
   const showModal = () => {
     setModal({...modal, modal: true});
@@ -150,46 +160,40 @@ const Template = ({url, title}) => {
     }
   };
 
-  const setLanguage = (value) => {
-    setLang(value);
-  };
-
   const columns = [
     {
       key: 1,
-      title: 'ID',
-      dataIndex: '_id',
-      width: "200%",
-    },
-    {
-      key: 2,
       title: 'Name (Uz)',
       dataIndex: 'name_Uz',
       width: "150%",
     },
     {
-      key: 3,
+      key: 2,
       title: 'Name (Ru)',
       dataIndex: 'name_Ru',
       width: "150%",
     },
     {
-      key: 4,
+      key: 3,
       title: 'Name (En)',
       dataIndex: 'name_En',
       width: "150%",
     },
     {
-      key: 5,
-      title: 'URL',
+      key: 4,
+      title: 'Image',
       dataIndex: 'photo',
-      render: (text) => <Typography.Text ellipsis>{text}</Typography.Text>,
-      width: "150%",
+      render: (text) => {
+        return (
+          <img className={scss.tableImg} src={`http://18.216.178.179/api/v1/img/${text}`} />
+        )
+      },
+      width: 100,
     },
     {
-      key: 6,
+      key: 5,
       title: 'Actions',
-      width: "70%",
+      width: 90,
       render: (record) => {
         return (
           <>
@@ -208,32 +212,6 @@ const Template = ({url, title}) => {
     },
   ];
 
-  if (lang == 'uz') {
-    columns[1] = {
-      ...columns[1],
-      filteredValue: [search.toLocaleLowerCase()],
-      onFilter: (value, record) => {
-        return String(record.name_Uz).toLocaleLowerCase().includes(value);
-      },
-    };
-  } else if (lang == 'ru') {
-    columns[2] = {
-      ...columns[2],
-      filteredValue: [search.toLocaleLowerCase()],
-      onFilter: (value, record) => {
-        return String(record.name_Ru).toLocaleLowerCase().includes(value);
-      },
-    };
-  } else {
-    columns[3] = {
-      ...columns[3],
-      filteredValue: [search.toLocaleLowerCase()],
-      onFilter: (value, record) => {
-        return String(record.name_En).toLocaleLowerCase().includes(value);
-      },
-    };
-  }
-
   return (
     <>
       {contextHolder}
@@ -247,15 +225,6 @@ const Template = ({url, title}) => {
             placeholder='Search by name. . .'
             className={scss.search}
             onChange={(e) => setSearch(e.target.value)}
-          />
-          <Select
-            className={scss.select}
-            defaultValue='UZ'
-            onChange={setLanguage}
-            options={[
-              {value: 'ru', label: 'RU'},
-              {value: 'en', label: 'EN'},
-            ]}
           />
         </Col>
         <Col span={5}>
@@ -349,7 +318,7 @@ const Template = ({url, title}) => {
       </Modal>
 
       <Spin spinning={loading.table}>
-        <Table tableLayout='fixed' className={scss.table} columns={columns} dataSource={data}></Table>
+        <Table tableLayout='fixed' className={scss.table} columns={columns} dataSource={filtered}></Table>
       </Spin>
     </>
   );
