@@ -58,15 +58,16 @@ function EduTable(props) {
         columns={columns}
         dataSource={edus}
         expandable={{
-          expandedRowRender: (record) => (
-            <p
-              style={{
-                margin: '10px 40px',
-              }}>
-              {parse(record.description_En)}
-            </p>
-          ),
-          rowExpandable: (record) => record.name !== 'Not Expandable',
+          expandedRowRender: (record) =>
+            record.description_En && (
+              <p
+                style={{
+                  margin: '10px 40px',
+                }}>
+                {parse(record.description_En)}
+              </p>
+            ),
+          // rowExpandable: (record) => record.name !== 'Not Expandable',
         }}
       />
       <Modal
