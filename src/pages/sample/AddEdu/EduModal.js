@@ -13,7 +13,7 @@ import {
 } from 'antd';
 import React from 'react';
 import PropTypes from 'prop-types';
-import ImgCrop from 'antd-img-crop';
+// import ImgCrop from 'antd-img-crop';
 import ReactQuill from 'react-quill';
 
 function EduModal(props) {
@@ -48,12 +48,18 @@ function EduModal(props) {
             onFinish={handleSubmit}>
             <Row justify={'space-between'} gutter={15}>
               <Col span={8}>
-                <Form.Item name={'name_Uz'} label='Name (uz)'>
+                <Form.Item
+                  name={'name_Uz'}
+                  label='Name (uz)'
+                  rules={[{required: true, message: 'Name is required'}]}>
                   <Input />
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item name={'name_Ru'} label='Name (ru)'>
+                <Form.Item
+                  name={'name_Ru'}
+                  label='Name (ru)'
+                  rules={[{required: true, message: 'Name is required'}]}>
                   <Input />
                 </Form.Item>
               </Col>
@@ -83,22 +89,22 @@ function EduModal(props) {
                 </Form.Item>
               </Col>
             </Row>
+            {/* <ImgCrop> */}
             <Form.Item
               name={'photo'}
               label='Image'
               // rules={[{required: true, message: 'Please enter the image'}]}
             >
-              <ImgCrop>
-                <Upload.Dragger
-                  maxCount={1}
-                  listType='picture'
-                  height={'200px'}
-                  accept='image/png, image/jpeg, image/jfif'
-                  beforeUpload={() => false}>
-                  <Button icon={<UploadOutlined />}>Click to Upload</Button>
-                </Upload.Dragger>
-              </ImgCrop>
+              <Upload.Dragger
+                maxCount={1}
+                listType='picture'
+                height={'200px'}
+                accept='image/png, image/jpeg, image/jfif'
+                beforeUpload={() => false}>
+                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+              </Upload.Dragger>
             </Form.Item>
+            {/* </ImgCrop> */}
             <Row justify={'space-between'} gutter={15}>
               <Col span={12}>
                 <Form.Item name={'langs'} label='Languages'>

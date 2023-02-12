@@ -42,7 +42,7 @@ const Template = ({url, title}) => {
       setLoading({...loading, table: false});
       setData(res.data.data);
     });
-  }, [update]);
+  }, [update, axios]);
 
   useEffect(() => {
     setFIltered(

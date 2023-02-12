@@ -13,6 +13,7 @@ function EduTable(props) {
   const [loading, setLoading] = useState(false);
   const {editBtn, getEduCenters, edus} = props;
 
+  const deleteButton = (id) => {};
   const columns = [
     {
       title: 'Name',
@@ -25,6 +26,23 @@ function EduTable(props) {
       title: 'Address',
       dataIndex: 'mainAddress',
       key: 'address',
+    },
+
+    {
+      title: 'Image',
+      dataIndex: 'photo',
+      key: 'photo',
+      render: (text) => {
+        console.log(text);
+        return !text ? (
+          ''
+        ) : (
+          <img
+            src={`http://18.216.178.179/api/v1/img/${text}`}
+            style={{height: 40, width: 40, objectFit: 'cover'}}
+          />
+        );
+      },
     },
     {
       title: 'Online',
@@ -69,7 +87,6 @@ function EduTable(props) {
                 {parse(record.description_En)}
               </p>
             ),
-          // rowExpandable: (record) => record.name !== 'Not Expandable',
         }}
       />
       <Modal

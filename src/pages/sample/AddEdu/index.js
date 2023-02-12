@@ -32,7 +32,7 @@ const Page1 = () => {
     setEdus((await jwtAxios.get(`edu`)).data.data);
     setLoading({...loading, table: false});
   };
-  
+
   useEffect(() => {
     // setSortdEdus([]);
     // console.log(edus);
@@ -80,6 +80,7 @@ const Page1 = () => {
   }, []);
 
   const postEdu = (data) => {
+    console.log(data.photo);
     const formData = new FormData();
     data.photo?.['file'] && formData.append('photo', data.photo['file']);
     data.name_Uz && formData.append('name_Uz', data.name_Uz);
@@ -128,8 +129,8 @@ const Page1 = () => {
       ]),
     );
 
-    console.log(data);
-    console.log([...formData]);
+    // console.log(data);
+    // console.log([...formData]);
     setLoading({...loading, modal: true});
 
     if (editId) {
@@ -176,6 +177,7 @@ const Page1 = () => {
     edu.links.forEach((link) => {
       logEdu[link.name] = link.link;
     });
+    console.log(logEdu);
     const fields = [];
     for (const key in logEdu) {
       fields.push({name: key, value: logEdu[key]});
